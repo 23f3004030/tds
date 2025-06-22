@@ -14,14 +14,20 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Show current directory and files
+        run: |
+          pwd
+          ls -la
+
       - name: Commit step - 23f3004030@ds.study.iitm.ac.in
         run: |
           echo "TDSFU Daily run: $(date -u)" >> daily-log.txt
 
       - name: Git Commit and Push
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
           git add daily-log.txt
           if git diff --cached --quiet; then
             echo "No changes to commit"
@@ -29,3 +35,4 @@ jobs:
             git commit -m "Auto commit at $(date -u)"
             git push
           fi
+
